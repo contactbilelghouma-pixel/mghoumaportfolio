@@ -294,12 +294,12 @@
 
     .project-card {
       background: var(--bg);
-      padding: 40px;
+      padding: 0;
       position: relative;
       overflow: hidden;
       transition: background 0.3s ease;
       display: flex; flex-direction: column;
-      min-height: 320px;
+      min-height: 420px;
       text-decoration: none; color: inherit;
     }
     .project-card::before {
@@ -317,22 +317,28 @@
       background: var(--surface);
     }
     .project-card.featured .project-visual {
-      height: 200px;
+      height: 300px;
     }
 
     .project-number {
       font-size: 11px; letter-spacing: 0.15em;
       text-transform: uppercase; color: var(--muted);
-      margin-bottom: 24px;
+      margin-bottom: 16px;
       font-family: 'DM Mono', monospace;
     }
     .project-visual {
-      height: 120px;
-      border-radius: var(--radius);
-      margin-bottom: 24px;
+      height: 220px;
+      border-radius: 0;
+      margin-bottom: 0;
       position: relative;
       overflow: hidden;
       flex-shrink: 0;
+    }
+    .project-card-body {
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
     }
     .project-visual .vis-inner {
       width: 100%; height: 100%;
@@ -593,11 +599,12 @@
 
       <!-- Card 1 — Featured -->
       <a href="#" class="project-card featured reveal">
-        <div class="project-number">01 — Projet phare</div>
         <div class="project-visual">
           <div class="vis-inner vis-1"><img src="projet-1.png.webp" alt="Projet 1" /></div>
         </div>
-        <div class="project-tags">
+        <div class="project-card-body">
+          <div class="project-number">01 — Projet phare</div>
+          <div class="project-tags">
           <span class="tag">Next.js</span>
           <span class="tag">Stripe</span>
           <span class="tag">PostgreSQL</span>
@@ -609,15 +616,17 @@
           <span class="project-year">2024</span>
           <span class="project-arrow">↗</span>
         </div>
+        </div>
       </a>
 
       <!-- Card 2 -->
       <a href="#" class="project-card reveal reveal-delay-1">
-        <div class="project-number">02</div>
         <div class="project-visual">
           <div class="vis-inner vis-2"><img src="projet-2.png.webp" alt="Projet 2" /></div>
         </div>
-        <div class="project-tags">
+        <div class="project-card-body">
+          <div class="project-number">02</div>
+          <div class="project-tags">
           <span class="tag">Python</span>
           <span class="tag">OpenAI</span>
           <span class="tag">FastAPI</span>
@@ -628,15 +637,17 @@
           <span class="project-year">2024</span>
           <span class="project-arrow">↗</span>
         </div>
+        </div>
       </a>
 
       <!-- Card 3 -->
       <a href="#" class="project-card reveal">
-        <div class="project-number">03</div>
         <div class="project-visual">
           <div class="vis-inner vis-3"><img src="projet-3.png.webp" alt="Projet 3" /></div>
         </div>
-        <div class="project-tags">
+        <div class="project-card-body">
+          <div class="project-number">03</div>
+          <div class="project-tags">
           <span class="tag">React</span>
           <span class="tag">D3.js</span>
           <span class="tag">Node.js</span>
@@ -647,15 +658,17 @@
           <span class="project-year">2024</span>
           <span class="project-arrow">↗</span>
         </div>
+        </div>
       </a>
 
       <!-- Card 4 -->
       <a href="#" class="project-card reveal reveal-delay-1">
-        <div class="project-number">04</div>
         <div class="project-visual">
           <div class="vis-inner vis-4"><img src="projet-4.png.jpg" alt="Projet 4" /></div>
         </div>
-        <div class="project-tags">
+        <div class="project-card-body">
+          <div class="project-number">04</div>
+          <div class="project-tags">
           <span class="tag">Go</span>
           <span class="tag">JWT</span>
           <span class="tag">Redis</span>
@@ -666,15 +679,17 @@
           <span class="project-year">2023</span>
           <span class="project-arrow">↗</span>
         </div>
+        </div>
       </a>
 
       <!-- Card 5 — Featured -->
       <a href="#" class="project-card featured reveal reveal-delay-2">
-        <div class="project-number">05 — Open Source</div>
         <div class="project-visual">
           <div class="vis-inner vis-5"><img src="projet-5.png.webp" alt="Projet 5" /></div>
         </div>
-        <div class="project-tags">
+        <div class="project-card-body">
+          <div class="project-number">05 — Open Source</div>
+          <div class="project-tags">
           <span class="tag">React Native</span>
           <span class="tag">MapBox</span>
           <span class="tag">Firebase</span>
@@ -686,15 +701,17 @@
           <span class="project-year">2023</span>
           <span class="project-arrow">↗</span>
         </div>
+        </div>
       </a>
 
       <!-- Card 6 -->
       <a href="#" class="project-card reveal">
-        <div class="project-number">06</div>
         <div class="project-visual">
           <div class="vis-inner vis-6"><img src="projet-6.png.webp" alt="Projet 6" /></div>
         </div>
-        <div class="project-tags">
+        <div class="project-card-body">
+          <div class="project-number">06</div>
+          <div class="project-tags">
           <span class="tag">Docker</span>
           <span class="tag">GitHub Actions</span>
           <span class="tag">AWS</span>
@@ -705,15 +722,17 @@
           <span class="project-year">2023</span>
           <span class="project-arrow">↗</span>
         </div>
+        </div>
       </a>
 
       <!-- Card 7 -->
       <a href="#" class="project-card reveal reveal-delay-1">
-        <div class="project-number">07</div>
         <div class="project-visual">
           <div class="vis-inner vis-7"><img src="projet-7.png.webp" alt="Projet 7" /></div>
         </div>
-        <div class="project-tags">
+        <div class="project-card-body">
+          <div class="project-number">07</div>
+          <div class="project-tags">
           <span class="tag">Vue.js</span>
           <span class="tag">Laravel</span>
           <span class="tag">MySQL</span>
@@ -724,15 +743,17 @@
           <span class="project-year">2023</span>
           <span class="project-arrow">↗</span>
         </div>
+        </div>
       </a>
 
       <!-- Card 8 -->
       <a href="#" class="project-card reveal reveal-delay-2">
-        <div class="project-number">08</div>
         <div class="project-visual">
           <div class="vis-inner vis-8"><img src="projet-8.png.webp" alt="Projet 8" /></div>
         </div>
-        <div class="project-tags">
+        <div class="project-card-body">
+          <div class="project-number">08</div>
+          <div class="project-tags">
           <span class="tag">GraphQL</span>
           <span class="tag">Prisma</span>
           <span class="tag">Nest.js</span>
@@ -743,15 +764,17 @@
           <span class="project-year">2022</span>
           <span class="project-arrow">↗</span>
         </div>
+        </div>
       </a>
 
       <!-- Card 9 -->
       <a href="#" class="project-card reveal reveal-delay-3">
-        <div class="project-number">09</div>
         <div class="project-visual">
           <div class="vis-inner vis-9"><img src="projet-9.png.webp" alt="Projet 9" /></div>
         </div>
-        <div class="project-tags">
+        <div class="project-card-body">
+          <div class="project-number">09</div>
+          <div class="project-tags">
           <span class="tag">Three.js</span>
           <span class="tag">GSAP</span>
           <span class="tag">WebGL</span>
@@ -761,6 +784,7 @@
         <div class="project-footer">
           <span class="project-year">2022</span>
           <span class="project-arrow">↗</span>
+        </div>
         </div>
       </a>
 
