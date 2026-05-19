@@ -419,6 +419,31 @@
 
 
 
+
+    /* ── PROJECTS NOTE ── */
+    .projects-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 32px;
+      padding: 14px 24px;
+      border: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+    .projects-note-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
     /* ── CONTACT ── */
     .contact-section {
       background: var(--surface);
@@ -589,13 +614,13 @@
         <p class="section-label">Travaux sélectionnés</p>
         <h2 class="section-title">Mes Projets</h2>
       </div>
-      <div class="section-count">09</div>
+      <div class="section-count">07</div>
     </div>
 
     <div class="projects-grid">
 
       <!-- Card 1 — Featured -->
-      <a href="#" class="project-card featured reveal">
+      <a href="https://vermijlcardetail.be/" target="_blank" class="project-card featured reveal">
         <div class="project-visual">
           <div class="vis-inner vis-1"><img src="projet-1.png.webp" alt="Projet 1" /></div>
         </div>
@@ -614,7 +639,7 @@
       </a>
 
       <!-- Card 2 -->
-      <a href="#" class="project-card reveal reveal-delay-1">
+      <a href="https://probat-maintenance.com/" target="_blank" class="project-card reveal reveal-delay-1">
         <div class="project-visual">
           <div class="vis-inner vis-2"><img src="projet-2.png.webp" alt="Projet 2" /></div>
         </div>
@@ -633,7 +658,7 @@
       </a>
 
       <!-- Card 3 -->
-      <a href="#" class="project-card reveal">
+      <a href="https://sud-net.com/" target="_blank" class="project-card reveal">
         <div class="project-visual">
           <div class="vis-inner vis-3"><img src="projet-3.png.webp" alt="Projet 3" /></div>
         </div>
@@ -652,7 +677,7 @@
       </a>
 
       <!-- Card 4 -->
-      <a href="#" class="project-card reveal reveal-delay-1">
+      <a href="https://www.om-batiment.fr/" target="_blank" class="project-card reveal reveal-delay-1">
         <div class="project-visual">
           <div class="vis-inner vis-4"><img src="projet-4.png.jpg" alt="Projet 4" /></div>
         </div>
@@ -670,7 +695,7 @@
       </a>
 
       <!-- Card 5 — Featured -->
-      <a href="#" class="project-card featured reveal reveal-delay-2">
+      <a href="https://www.lesperienza.fr/" target="_blank" class="project-card featured reveal reveal-delay-2">
         <div class="project-visual">
           <div class="vis-inner vis-5"><img src="projet-5.png.webp" alt="Projet 5" /></div>
         </div>
@@ -688,7 +713,7 @@
       </a>
 
       <!-- Card 6 -->
-      <a href="#" class="project-card reveal">
+      <a href="https://nettoyage-industriel.fr/" target="_blank" class="project-card reveal">
         <div class="project-visual">
           <div class="vis-inner vis-6"><img src="projet-6.png.webp" alt="Projet 6" /></div>
         </div>
@@ -707,7 +732,7 @@
       </a>
 
       <!-- Card 7 -->
-      <a href="#" class="project-card reveal reveal-delay-1">
+      <a href="https://www.bkcstudio.fr/" target="_blank" class="project-card reveal reveal-delay-1">
         <div class="project-visual">
           <div class="vis-inner vis-7"><img src="projet-7.png.webp" alt="Projet 7" /></div>
         </div>
@@ -724,48 +749,12 @@
         </div>
       </a>
 
-      <!-- Card 8 -->
-      <a href="#" class="project-card reveal reveal-delay-2">
-        <div class="project-visual">
-          <div class="vis-inner vis-8"><img src="projet-8.png.webp" alt="Projet 8" /></div>
-        </div>
-        <div class="project-card-body">
-          <div class="project-number">08</div>
-          <div class="project-tags">
-          <span class="tag">GraphQL</span>
-          <span class="tag">Prisma</span>
-          <span class="tag">Nest.js</span>
-        </div>
-        <div class="project-title">API GraphQL Scalable</div>
-        <div class="project-desc">Backend GraphQL avec pagination cursor-based, subscriptions temps réel et caching Redis.</div>
-        <div class="project-footer">
-          <span class="project-year">2022</span>
-          <span class="project-arrow">↗</span>
-        </div>
-        </div>
-      </a>
 
-      <!-- Card 9 -->
-      <a href="#" class="project-card reveal reveal-delay-3">
-        <div class="project-visual">
-          <div class="vis-inner vis-9"><img src="projet-9.png.webp" alt="Projet 9" /></div>
-        </div>
-        <div class="project-card-body">
-          <div class="project-number">09</div>
-          <div class="project-tags">
-          <span class="tag">Three.js</span>
-          <span class="tag">GSAP</span>
-          <span class="tag">WebGL</span>
-        </div>
-        <div class="project-title">Expérience WebGL Interactive</div>
-        <div class="project-desc">Portfolio artistique immersif avec shaders GLSL personnalisés et animations fluides 60fps.</div>
-        <div class="project-footer">
-          <span class="project-year">2022</span>
-          <span class="project-arrow">↗</span>
-        </div>
-        </div>
-      </a>
 
+    <div class="projects-note reveal">
+      <span class="projects-note-dot"></span>
+      4 autres sites web sont actuellement développés — en attente d'un nom de domaine.
+    </div>
     </div>
   </section>
 
