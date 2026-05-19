@@ -1,147 +1,830 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio - Mohamed</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — Votre Nom</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Fraunces:ital,wght@0,300;0,700;1,300&display=swap" rel="stylesheet" />
   <style>
-    body{
-      margin:0;
-      font-family:Arial,sans-serif;
-      background:#0f172a;
-      color:white;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080808;
+      --surface: #0f0f0f;
+      --surface2: #161616;
+      --border: rgba(255,255,255,0.07);
+      --accent: #c8ff00;
+      --accent2: #ff4d6d;
+      --text: #f0ede6;
+      --muted: #6b6b6b;
+      --card-hover: #111111;
+      --radius: 2px;
     }
-    header{
-      text-align:center;
-      padding:60px 20px;
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
     }
-    h1{
-      font-size:48px;
-      margin-bottom:10px;
+
+    /* ── CUSTOM CURSOR ── */
+    .cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.15s ease, opacity 0.2s;
+      mix-blend-mode: difference;
     }
-    p{
-      color:#cbd5e1;
+    .cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(200,255,0,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transition: transform 0.35s cubic-bezier(0.25,1,0.5,1), width 0.3s, height 0.3s;
     }
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:60px 40px;
+    .cursor.hover { transform: scale(2.5); }
+    .cursor-ring.hover { width: 56px; height: 56px; border-color: var(--accent); }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      pointer-events: none;
+      z-index: 9997;
+      opacity: 0.35;
     }
-    .card{
-      background:#1e293b;
-      border-radius:16px;
-      padding:20px;
-      transition:0.3s;
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 60px;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.4s, background 0.4s;
     }
-    .card:hover{
-      transform:translateY(-5px);
+    nav.scrolled {
+      border-color: var(--border);
+      background: rgba(8,8,8,0.85);
+      backdrop-filter: blur(20px);
     }
-    .btn{
-      display:inline-block;
-      margin-top:15px;
-      padding:12px 18px;
-      background:white;
-      color:black;
-      text-decoration:none;
-      border-radius:10px;
-      font-weight:bold;
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      text-decoration: none;
     }
-    footer{
-      text-align:center;
-      padding:40px 20px;
-      color:#94a3b8;
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 22px;
+      background: var(--accent);
+      color: #080808;
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: var(--radius);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: center;
+      padding: 140px 60px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+    }
+    .hero-accent-blob {
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(200,255,0,0.06) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      pointer-events: none;
+      animation: blobFloat 8s ease-in-out infinite;
+    }
+    @keyframes blobFloat {
+      0%,100% { transform: translate(0,0) scale(1); }
+      50% { transform: translate(-30px, 40px) scale(1.05); }
+    }
+    .hero-content { position: relative; max-width: 900px; }
+    .hero-label {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 28px;
+    }
+    .hero-label::before {
+      content: '';
+      display: block; width: 32px; height: 1px;
+      background: var(--accent);
+    }
+    .hero-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(52px, 8vw, 110px);
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -3px;
+      margin-bottom: 32px;
+    }
+    .hero-title em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--muted);
+    }
+    .hero-title .accent-word { color: var(--accent); }
+    .hero-description {
+      max-width: 480px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 48px;
+    }
+    .hero-actions { display: flex; gap: 16px; align-items: center; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 32px;
+      background: var(--accent);
+      color: #080808;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 13px;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      text-decoration: none; border-radius: var(--radius);
+      transition: all 0.25s ease;
+      position: relative; overflow: hidden;
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.15);
+      transform: translateX(-101%);
+      transition: transform 0.3s ease;
+    }
+    .btn-primary:hover::after { transform: translateX(0); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 32px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-weight: 600; font-size: 13px;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      text-decoration: none; border-radius: var(--radius);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--text); }
+    .hero-stats {
+      position: absolute; bottom: 60px; right: 60px;
+      display: flex; gap: 48px;
+    }
+    .stat { text-align: right; }
+    .stat-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 36px; font-weight: 800;
+      color: var(--text); line-height: 1;
+    }
+    .stat-number span { color: var(--accent); }
+    .stat-label { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+
+    /* ── MARQUEE ── */
+    .marquee-section {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden; padding: 18px 0;
+    }
+    .marquee-track {
+      display: flex; gap: 48px;
+      animation: marquee 20s linear infinite;
+      width: max-content;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .marquee-item {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 11px; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--muted);
+      white-space: nowrap;
+    }
+    .marquee-item .dot {
+      width: 4px; height: 4px;
+      background: var(--accent); border-radius: 50%;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 120px 60px; }
+
+    .section-header {
+      display: flex; align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 72px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 32px;
+    }
+    .section-label {
+      font-size: 11px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -1px;
+    }
+    .section-count {
+      font-family: 'Fraunces', serif;
+      font-size: 72px;
+      font-weight: 300;
+      color: var(--surface2);
+      line-height: 1;
+      font-style: italic;
+      margin-bottom: -8px;
+    }
+
+    /* ── PROJECT GRID ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .project-card {
+      background: var(--bg);
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease;
+      display: flex; flex-direction: column;
+      min-height: 320px;
+      text-decoration: none; color: inherit;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(200,255,0,0.04) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .project-card:hover { background: var(--card-hover); }
+    .project-card:hover::before { opacity: 1; }
+
+    .project-card.featured {
+      grid-column: span 2;
+      background: var(--surface);
+    }
+    .project-card.featured .project-visual {
+      height: 200px;
+    }
+
+    .project-number {
+      font-size: 11px; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 24px;
+      font-family: 'DM Mono', monospace;
+    }
+    .project-visual {
+      height: 120px;
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .project-visual .vis-inner {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px;
+      transition: transform 0.4s ease;
+    }
+    .project-card:hover .vis-inner { transform: scale(1.05); }
+
+    /* Visual backgrounds per card */
+    .vis-1 { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%); }
+    .vis-2 { background: linear-gradient(135deg, #0d0d0d 0%, #1a0a0a 100%); }
+    .vis-3 { background: linear-gradient(135deg, #0a0d0a 0%, #0a1a0a 100%); }
+    .vis-4 { background: linear-gradient(135deg, #0d0a0d 0%, #1a0a1a 100%); }
+    .vis-5 { background: linear-gradient(135deg, #0a0d10 0%, #0a1020 100%); }
+    .vis-6 { background: linear-gradient(135deg, #100a0a 0%, #200d0a 100%); }
+    .vis-7 { background: linear-gradient(135deg, #0a100a 0%, #0a2010 100%); }
+    .vis-8 { background: linear-gradient(135deg, #0a0a14 0%, #100a20 100%); }
+    .vis-9 { background: linear-gradient(135deg, #140a0a 0%, #200a14 100%); }
+
+    .project-tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-bottom: 16px;
+    }
+    .tag {
+      font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 3px 8px; border-radius: 2px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .project-card:hover .tag {
+      border-color: rgba(200,255,0,0.2);
+      color: rgba(200,255,0,0.7);
+    }
+    .project-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px; font-weight: 700;
+      letter-spacing: -0.3px; line-height: 1.2;
+      margin-bottom: 10px;
+      flex-grow: 1;
+    }
+    .project-card.featured .project-title { font-size: 26px; }
+    .project-desc {
+      font-size: 13px; color: var(--muted);
+      line-height: 1.7; margin-bottom: 24px;
+    }
+    .project-footer {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .project-year { font-size: 11px; color: var(--muted); }
+    .project-arrow {
+      width: 32px; height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--text);
+      transition: all 0.25s ease;
+    }
+    .project-card:hover .project-arrow {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #080808;
+      transform: rotate(45deg);
+    }
+
+
+
+    /* ── CONTACT ── */
+    .contact-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .contact-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(48px, 7vw, 96px);
+      font-weight: 700; font-style: italic;
+      line-height: 1;
+      letter-spacing: -2px;
+      margin-bottom: 28px;
+    }
+    .contact-title span { color: var(--accent); font-style: normal; }
+    .contact-sub { color: var(--muted); max-width: 440px; margin: 0 auto 48px; line-height: 1.8; }
+    .contact-links {
+      display: flex; gap: 12px;
+      justify-content: center; flex-wrap: wrap;
+    }
+    .contact-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px;
+      border: 1px solid var(--border);
+      color: var(--text); text-decoration: none;
+      font-size: 12px; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.2s;
+      border-radius: var(--radius);
+    }
+    .contact-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .contact-link.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #080808;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+    }
+    .contact-link.primary:hover { opacity: 0.85; color: #080808; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 32px 60px;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    footer span { font-size: 11px; color: var(--muted); }
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 16px;
+      color: var(--text);
+    }
+    .footer-logo span { color: var(--accent); }
+
+    /* ── ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s cubic-bezier(0.25,1,0.5,1), transform 0.7s cubic-bezier(0.25,1,0.5,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      nav { padding: 20px 32px; }
+      .hero { padding: 120px 32px 80px; }
+      section { padding: 80px 32px; }
+      .hero-stats { right: 32px; bottom: 40px; gap: 32px; }
+      .projects-grid { grid-template-columns: 1fr 1fr; }
+      .project-card.featured { grid-column: span 2; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 18px 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 100px 24px 120px; }
+      section { padding: 60px 24px; }
+      footer { padding: 24px; flex-direction: column; gap: 12px; text-align: center; }
+      .hero-stats { position: static; margin-top: 48px; justify-content: flex-start; flex-wrap: wrap; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card.featured { grid-column: span 1; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .section-header { flex-direction: column; align-items: flex-start; gap: 12px; }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Mohamed GHOUMA - Portfolio</h1>
-  <p>Chef de projet digital et consultant web avec plusieurs années d’expérience dans la gestion de projets digitaux, le pilotage d’équipes techniques et le développement de solutions web modernes. J’accompagne les entreprises dans leur transformation digitale à travers la création de sites performants, l’optimisation de l’expérience utilisateur et la gestion de projets web de bout en bout. Passionné par le digital, le design et les nouvelles technologies, j’ai réalisé plusieurs projets web en freelance et en agence, en utilisant des outils comme WordPress, Webflow et des solutions no-code modernes. </p>
-</header>
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
 
-<section class="container">
+  <!-- Navigation -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">Alex<span>.</span>dev</a>
+    <ul class="nav-links">
+      <li><a href="#projects">Projets</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="https://github.com/votre-username" target="_blank" class="nav-cta">
+      GitHub ↗
+    </a>
+  </nav>
 
-  <section class="container">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-accent-blob"></div>
+    <div class="hero-content">
+      <p class="hero-label reveal">Développeur Full Stack & Designer</p>
+      <h1 class="hero-title reveal reveal-delay-1">
+        Créer <em>l'expérience</em><br>
+        <span class="accent-word">numérique</span><br>
+        de demain.
+      </h1>
+      <p class="hero-description reveal reveal-delay-2">
+        Je conçois et développe des interfaces web haute performance et des systèmes qui combinent esthétique et fonctionnalité. Basé en France, disponible pour le monde entier.
+      </p>
+      <div class="hero-actions reveal reveal-delay-3">
+        <a href="#projects" class="btn-primary">Voir mes projets ↓</a>
+        <a href="#contact" class="btn-secondary">Me contacter</a>
+      </div>
+    </div>
+    <div class="hero-stats reveal reveal-delay-3">
+      <div class="stat">
+        <div class="stat-number">9<span>+</span></div>
+        <div class="stat-label">Projets livrés</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">3<span>+</span></div>
+        <div class="stat-label">Années d'expérience</div>
+      </div>
+    </div>
+  </section>
 
-  <div class="card">
-    <h2>Projet 1</h2>
-    <p>Création d’un site vitrine moderne et responsive.</p>
-    <a class="btn" href="#" target="_blank">Voir le site</a>
+  <!-- Marquee -->
+  <div class="marquee-section">
+    <div class="marquee-track">
+      <div class="marquee-item"><span class="dot"></span> React & Next.js</div>
+      <div class="marquee-item"><span class="dot"></span> Node.js</div>
+      <div class="marquee-item"><span class="dot"></span> TypeScript</div>
+      <div class="marquee-item"><span class="dot"></span> PostgreSQL</div>
+      <div class="marquee-item"><span class="dot"></span> UI / UX Design</div>
+      <div class="marquee-item"><span class="dot"></span> APIs REST & GraphQL</div>
+      <div class="marquee-item"><span class="dot"></span> CI / CD</div>
+      <div class="marquee-item"><span class="dot"></span> Docker & DevOps</div>
+      <div class="marquee-item"><span class="dot"></span> Open Source</div>
+      <!-- duplicate for infinite scroll -->
+      <div class="marquee-item"><span class="dot"></span> React & Next.js</div>
+      <div class="marquee-item"><span class="dot"></span> Node.js</div>
+      <div class="marquee-item"><span class="dot"></span> TypeScript</div>
+      <div class="marquee-item"><span class="dot"></span> PostgreSQL</div>
+      <div class="marquee-item"><span class="dot"></span> UI / UX Design</div>
+      <div class="marquee-item"><span class="dot"></span> APIs REST & GraphQL</div>
+      <div class="marquee-item"><span class="dot"></span> CI / CD</div>
+      <div class="marquee-item"><span class="dot"></span> Docker & DevOps</div>
+      <div class="marquee-item"><span class="dot"></span> Open Source</div>
+    </div>
   </div>
 
-  <div class="card">
-    <h2>Projet 2</h2>
-    <p>Développement d’une plateforme digitale performante.</p>
-    <a class="btn" href="#" target="_blank">Voir le site</a>
-  </div>
+  <!-- Projects -->
+  <section id="projects">
+    <div class="section-header reveal">
+      <div>
+        <p class="section-label">Travaux sélectionnés</p>
+        <h2 class="section-title">Mes Projets</h2>
+      </div>
+      <div class="section-count">09</div>
+    </div>
 
-  <div class="card">
-    <h2>Projet 3</h2>
-    <p>Conception UX/UI et optimisation de l’expérience utilisateur.</p>
-    <a class="btn" href="#" target="_blank">Voir le site</a>
-  </div>
+    <div class="projects-grid">
 
-  <div class="card">
-    <h2>Projet 4</h2>
-    <p>Site web responsive optimisé SEO et performance.</p>
-    <a class="btn" href="#" target="_blank">Voir le site</a>
-  </div>
+      <!-- Card 1 — Featured -->
+      <a href="#" class="project-card featured reveal">
+        <div class="project-number">01 — Projet phare</div>
+        <div class="project-visual">
+          <div class="vis-inner vis-1">🛒</div>
+        </div>
+        <div class="project-tags">
+          <span class="tag">Next.js</span>
+          <span class="tag">Stripe</span>
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">Tailwind</span>
+        </div>
+        <div class="project-title">Plateforme E-Commerce Full Stack</div>
+        <div class="project-desc">Solution complète avec panier en temps réel, paiements Stripe, gestion des stocks et dashboard analytics pour marchands indépendants.</div>
+        <div class="project-footer">
+          <span class="project-year">2024</span>
+          <span class="project-arrow">↗</span>
+        </div>
+      </a>
 
-  <div class="card">
-    <h2>Projet 5</h2>
-    <p>Refonte complète d’une identité digitale moderne.</p>
-    <a class="btn" href="#" target="_blank">Voir le site</a>
-  </div>
+      <!-- Card 2 -->
+      <a href="#" class="project-card reveal reveal-delay-1">
+        <div class="project-number">02</div>
+        <div class="project-visual">
+          <div class="vis-inner vis-2">🤖</div>
+        </div>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">OpenAI</span>
+          <span class="tag">FastAPI</span>
+        </div>
+        <div class="project-title">Assistant IA Conversationnel</div>
+        <div class="project-desc">Chatbot intelligent intégrant GPT-4 avec mémoire contextuelle persistante.</div>
+        <div class="project-footer">
+          <span class="project-year">2024</span>
+          <span class="project-arrow">↗</span>
+        </div>
+      </a>
 
-  <div class="card">
-    <h2>Projet 6</h2>
-    <p>Création d’une landing page professionnelle.</p>
-    <a class="btn" href="#" target="_blank">Voir le site</a>
-  </div>
+      <!-- Card 3 -->
+      <a href="#" class="project-card reveal">
+        <div class="project-number">03</div>
+        <div class="project-visual">
+          <div class="vis-inner vis-3">📊</div>
+        </div>
+        <div class="project-tags">
+          <span class="tag">React</span>
+          <span class="tag">D3.js</span>
+          <span class="tag">Node.js</span>
+        </div>
+        <div class="project-title">Dashboard Analytics Temps Réel</div>
+        <div class="project-desc">Visualisation de données complexes avec WebSockets et graphiques interactifs.</div>
+        <div class="project-footer">
+          <span class="project-year">2024</span>
+          <span class="project-arrow">↗</span>
+        </div>
+      </a>
 
-  <div class="card">
-    <h2>Projet 7</h2>
-    <p>Développement d’un dashboard et interface administrateur.</p>
-    <a class="btn" href="#" target="_blank">Voir le site</a>
-  </div>
+      <!-- Card 4 -->
+      <a href="#" class="project-card reveal reveal-delay-1">
+        <div class="project-number">04</div>
+        <div class="project-visual">
+          <div class="vis-inner vis-4">🔐</div>
+        </div>
+        <div class="project-tags">
+          <span class="tag">Go</span>
+          <span class="tag">JWT</span>
+          <span class="tag">Redis</span>
+        </div>
+        <div class="project-title">Auth Service Microservice</div>
+        <div class="project-desc">Service d'authentification haute disponibilité avec OAuth2, RBAC et audit log.</div>
+        <div class="project-footer">
+          <span class="project-year">2023</span>
+          <span class="project-arrow">↗</span>
+        </div>
+      </a>
 
-  <div class="card">
-    <h2>Projet 8</h2>
-    <p>Intégration CMS WordPress avec design personnalisé.</p>
-    <a class="btn" href="#" target="_blank">Voir le site</a>
-  </div>
+      <!-- Card 5 — Featured -->
+      <a href="#" class="project-card featured reveal reveal-delay-2">
+        <div class="project-number">05 — Open Source</div>
+        <div class="project-visual">
+          <div class="vis-inner vis-5">🗺️</div>
+        </div>
+        <div class="project-tags">
+          <span class="tag">React Native</span>
+          <span class="tag">MapBox</span>
+          <span class="tag">Firebase</span>
+          <span class="tag">TypeScript</span>
+        </div>
+        <div class="project-title">App Mobile de Géolocalisation Communautaire</div>
+        <div class="project-desc">Application mobile cross-platform permettant aux utilisateurs de partager des lieux et événements locaux avec carte interactive et notifications push en temps réel.</div>
+        <div class="project-footer">
+          <span class="project-year">2023</span>
+          <span class="project-arrow">↗</span>
+        </div>
+      </a>
 
-  <div class="card">
-    <h2>Projet 9</h2>
-    <p>Site e-commerce moderne avec expérience utilisateur fluide.</p>
-    <a class="btn" href="#" target="_blank">Voir le site</a>
-  </div>
+      <!-- Card 6 -->
+      <a href="#" class="project-card reveal">
+        <div class="project-number">06</div>
+        <div class="project-visual">
+          <div class="vis-inner vis-6">⚙️</div>
+        </div>
+        <div class="project-tags">
+          <span class="tag">Docker</span>
+          <span class="tag">GitHub Actions</span>
+          <span class="tag">AWS</span>
+        </div>
+        <div class="project-title">Pipeline CI/CD Automatisé</div>
+        <div class="project-desc">Infrastructure DevOps complète avec tests automatisés, déploiement continu et monitoring.</div>
+        <div class="project-footer">
+          <span class="project-year">2023</span>
+          <span class="project-arrow">↗</span>
+        </div>
+      </a>
 
-  <div class="card">
-    <h2>Projet 10</h2>
-    <p>Conception d’une application web responsive.</p>
-    <a class="btn" href="#" target="_blank">Voir le site</a>
-  </div>
+      <!-- Card 7 -->
+      <a href="#" class="project-card reveal reveal-delay-1">
+        <div class="project-number">07</div>
+        <div class="project-visual">
+          <div class="vis-inner vis-7">🌿</div>
+        </div>
+        <div class="project-tags">
+          <span class="tag">Vue.js</span>
+          <span class="tag">Laravel</span>
+          <span class="tag">MySQL</span>
+        </div>
+        <div class="project-title">SaaS Gestion de Projets</div>
+        <div class="project-desc">Outil collaboratif type Notion avec éditeur rich-text, kanban et partage d'équipe.</div>
+        <div class="project-footer">
+          <span class="project-year">2023</span>
+          <span class="project-arrow">↗</span>
+        </div>
+      </a>
 
-  <div class="card">
-    <h2>Projet 11</h2>
-    <p>Optimisation SEO et amélioration des performances web.</p>
-    <a class="btn" href="#" target="_blank">Voir le site</a>
-  </div>
+      <!-- Card 8 -->
+      <a href="#" class="project-card reveal reveal-delay-2">
+        <div class="project-number">08</div>
+        <div class="project-visual">
+          <div class="vis-inner vis-8">📡</div>
+        </div>
+        <div class="project-tags">
+          <span class="tag">GraphQL</span>
+          <span class="tag">Prisma</span>
+          <span class="tag">Nest.js</span>
+        </div>
+        <div class="project-title">API GraphQL Scalable</div>
+        <div class="project-desc">Backend GraphQL avec pagination cursor-based, subscriptions temps réel et caching Redis.</div>
+        <div class="project-footer">
+          <span class="project-year">2022</span>
+          <span class="project-arrow">↗</span>
+        </div>
+      </a>
 
-  <div class="card">
-    <h2>Projet 12</h2>
-    <p>Création d’un site corporate moderne et professionnel.</p>
-    <a class="btn" href="#" target="_blank">Voir le site</a>
-  </div>
+      <!-- Card 9 -->
+      <a href="#" class="project-card reveal reveal-delay-3">
+        <div class="project-number">09</div>
+        <div class="project-visual">
+          <div class="vis-inner vis-9">🎨</div>
+        </div>
+        <div class="project-tags">
+          <span class="tag">Three.js</span>
+          <span class="tag">GSAP</span>
+          <span class="tag">WebGL</span>
+        </div>
+        <div class="project-title">Expérience WebGL Interactive</div>
+        <div class="project-desc">Portfolio artistique immersif avec shaders GLSL personnalisés et animations fluides 60fps.</div>
+        <div class="project-footer">
+          <span class="project-year">2022</span>
+          <span class="project-arrow">↗</span>
+        </div>
+      </a>
 
-</section>
-</section>
+    </div>
+  </section>
 
-<footer>
-  © 2026 Mohamed - Portfolio
-</footer>
+  <!-- Contact -->
+  <section id="contact" class="contact-section">
+    <h2 class="contact-title reveal">Travaillons <span>ensemble.</span></h2>
+    <p class="contact-sub reveal reveal-delay-1">Vous avez un projet ambitieux ? Je suis disponible pour des collaborations freelance, des postes full-time et des partenariats open source.</p>
+    <div class="contact-links reveal reveal-delay-2">
+      <a href="mailto:hello@votredomaine.com" class="contact-link primary">✉ M'écrire</a>
+      <a href="https://github.com/votre-username" target="_blank" class="contact-link">GitHub</a>
+      <a href="https://linkedin.com/in/votre-profil" target="_blank" class="contact-link">LinkedIn</a>
+      <a href="https://twitter.com/votre-handle" target="_blank" class="contact-link">Twitter / X</a>
+    </div>
+  </section>
 
+  <!-- Footer -->
+  <footer>
+    <span>© 2024 — Votre Nom. Conçu & développé avec soin.</span>
+    <div class="footer-logo">Alex<span>.</span>dev</div>
+    <span>Fait en 🇫🇷</span>
+  </footer>
+
+  <script>
+    // ── Custom Cursor ──
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx - 5 + 'px';
+      cursor.style.top  = my - 5 + 'px';
+    });
+
+    function animateRing() {
+      rx += (mx - rx - 18) * 0.12;
+      ry += (my - ry - 18) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); ring.classList.add('hover'); });
+      el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); ring.classList.remove('hover'); });
+    });
+
+    // ── Navbar scroll ──
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ── Reveal on scroll ──
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Trigger hero reveals immediately
+    document.querySelectorAll('.hero .reveal').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), 100 + i * 150);
+    });
+  </script>
 </body>
 </html>
